@@ -25,7 +25,6 @@ options:
   "@typespec/json-schema":
     file-type: "json"
     int64-strategy: "number"
-    bundleId: "models.json"
     emitAllModels: true
     emitAllRefs: true
     
