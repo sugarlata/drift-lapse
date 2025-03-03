@@ -3,7 +3,7 @@ import "@typespec/openapi";
 import "@typespec/openapi3";
 import "@typespec/versioning";
 
-import "./turret/operations.tsp";
+import "./emotimo/operations.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
@@ -13,10 +13,10 @@ using TypeSpec.Versioning;
     title: "Drift Lapse API",
 })
 @server("http://localhost:8000", "Local Server")
-@doc("This is the drift-lapse backend for controlling GoPro, Image Tracking, and DF3.")
+@doc("This is the drift-lapse backend for controlling GoPro, Image Tracking, and Emotimo.")
 @versioned(Versions)
 namespace DriftLapseAPI {
-    using DriftLapseAPI.Turret;
+    using DriftLapseAPI.Emotimo;
 }
 
 enum Versions {
