@@ -4,6 +4,7 @@ import "@typespec/openapi3";
 import "@typespec/versioning";
 
 import "./emotimo/operations.tsp";
+import "./gopro/operations.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
@@ -17,6 +18,7 @@ using TypeSpec.Versioning;
 @versioned(Versions)
 namespace DriftLapseAPI {
     using DriftLapseAPI.Emotimo;
+    using DriftLapseAPI.GoPro;
 }
 
 enum Versions {

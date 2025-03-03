@@ -5,6 +5,7 @@ info:
   version: v1
 tags:
   - name: Emotimo
+  - name: GoPro
 paths:
   /emotimo/absolute:
     post:
@@ -156,6 +157,141 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RelativeMoveRequest'
+  /gopro/photo:
+    post:
+      operationId: GoProCamera_photoGoPro
+      summary: Take a photo
+      description: Send a BLE command to the GoPro to take a photo
+      parameters: []
+      responses:
+        '200':
+          description: BLE command sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - GoPro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /gopro/timelapse/start:
+    post:
+      operationId: GoProStartTimelapse_startTimelapseGoPro
+      summary: Start Timelapse
+      description: Send a BLE command to the GoPro to start recording a timelapse
+      parameters: []
+      responses:
+        '200':
+          description: BLE command sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - GoPro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /gopro/timelapse/stop:
+    post:
+      operationId: GoProStopTimelapse_stopTimelapseGoPro
+      summary: Stop Timelapse
+      description: Send a BLE command to the GoPro to stop recording a timelapse
+      parameters: []
+      responses:
+        '200':
+          description: BLE command sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - GoPro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /gopro/video/start:
+    post:
+      operationId: GoProStartVideo_startVideoGoPro
+      summary: Start Video
+      description: Send a BLE command to the GoPro to start recording a video
+      parameters: []
+      responses:
+        '200':
+          description: BLE command sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - GoPro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /gopro/video/stop:
+    post:
+      operationId: GoProStopVideo_stopVideoGoPro
+      summary: Stop Video
+      description: Send a BLE command to the GoPro to stop recording a video
+      parameters: []
+      responses:
+        '200':
+          description: BLE command sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - GoPro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
 components:
   schemas:
     APIValidationError:

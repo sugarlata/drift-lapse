@@ -52,12 +52,12 @@ namespace DriftLapseAPI.GoPro {
 
     @tag("GoPro")
     @route("/timelapse/start")
-    interface GoProStartTimeLapse {
+    interface GoProStartTimelapse {
         /** Send a BLE command to the GoPro to start recording a timelapse */
-        @summary("Start TimeLapse")
+        @summary("Start Timelapse")
         @returnsDoc("BLE command sent successfully")
         @post
-        startTimeLapseGoPro(@body body: {}): {
+        startTimelapseGoPro(@body body: {}): {
             @bodyRoot response: {
                 @statusCode statusCode: 200;
             };
@@ -66,12 +66,12 @@ namespace DriftLapseAPI.GoPro {
 
     @tag("GoPro")
     @route("/timelapse/stop")
-    interface GoProStopTimeLapse {
+    interface GoProStopTimelapse {
         /** Send a BLE command to the GoPro to stop recording a timelapse */
-        @summary("Stop TimeLapse")
+        @summary("Stop Timelapse")
         @returnsDoc("BLE command sent successfully")
         @post
-        stopTimeLapseGoPro(@body body: {}): {
+        stopTimelapseGoPro(@body body: {}): {
             @bodyRoot response: {
                 @statusCode statusCode: 200;
             };
