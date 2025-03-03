@@ -6,7 +6,99 @@ info:
 tags:
   - name: Emotimo
   - name: GoPro
+  - name: Drift-Lapse
+  - name: Track
 paths:
+  /drift-lapse/start:
+    post:
+      operationId: StartDriftLapse_startDriftLapse
+      summary: Start a drift lapse
+      description: Start a drift lapse - will follow registered point in frame and take a timelapse
+      parameters: []
+      responses:
+        '200':
+          description: Started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: There was an issue that rejected this operation. See schema for details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RejectedError'
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - Drift-Lapse
+  /drift-lapse/start-tracking:
+    post:
+      operationId: StartTrackPoint_startTrackPoint
+      summary: Start tracking a point
+      description: Start tracking a point
+      parameters: []
+      responses:
+        '200':
+          description: Started Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - Track
+  /drift-lapse/stop:
+    post:
+      operationId: StopDriftLapse_stopDriftLapse
+      summary: Stop a drift lapse
+      description: Stop a drift lapse
+      parameters: []
+      responses:
+        '200':
+          description: Stopped successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - Drift-Lapse
+  /drift-lapse/stop-tracking:
+    post:
+      operationId: StopTrackPoint_stopTrackPoint
+      summary: Stop tracking a point
+      description: Stop tracking a point
+      parameters: []
+      responses:
+        '200':
+          description: Stopped Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - Track
   /emotimo/absolute:
     post:
       operationId: AbsoluteOperation_absMoveEmotimo
@@ -169,7 +261,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/SuccessResponse'
         '500':
           description: Something went wrong with processing the request
           content:
@@ -178,12 +270,6 @@ paths:
                 $ref: '#/components/schemas/InternalError'
       tags:
         - GoPro
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
   /gopro/timelapse/start:
     post:
       operationId: GoProStartTimelapse_startTimelapseGoPro
@@ -196,7 +282,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/SuccessResponse'
         '500':
           description: Something went wrong with processing the request
           content:
@@ -205,12 +291,6 @@ paths:
                 $ref: '#/components/schemas/InternalError'
       tags:
         - GoPro
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
   /gopro/timelapse/stop:
     post:
       operationId: GoProStopTimelapse_stopTimelapseGoPro
@@ -223,7 +303,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/SuccessResponse'
         '500':
           description: Something went wrong with processing the request
           content:
@@ -232,12 +312,6 @@ paths:
                 $ref: '#/components/schemas/InternalError'
       tags:
         - GoPro
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
   /gopro/video/start:
     post:
       operationId: GoProStartVideo_startVideoGoPro
@@ -250,7 +324,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/SuccessResponse'
         '500':
           description: Something went wrong with processing the request
           content:
@@ -259,12 +333,6 @@ paths:
                 $ref: '#/components/schemas/InternalError'
       tags:
         - GoPro
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
   /gopro/video/stop:
     post:
       operationId: GoProStopVideo_stopVideoGoPro
@@ -277,7 +345,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/SuccessResponse'
         '500':
           description: Something went wrong with processing the request
           content:
@@ -286,12 +354,39 @@ paths:
                 $ref: '#/components/schemas/InternalError'
       tags:
         - GoPro
+  /track/register:
+    post:
+      operationId: RegisterTrackPoint_registerTrackPoint
+      summary: Register a track point
+      description: Register a point to start tracking
+      parameters: []
+      responses:
+        '200':
+          description: Registered Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '422':
+          description: There was an issue parsing the response. Generated automagically by Pydantic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIValidationError'
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - Track
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/RegisterTrackPointRequest'
 components:
   schemas:
     APIValidationError:
@@ -361,6 +456,16 @@ components:
           type: integer
         slide:
           type: integer
+    RegisterTrackPointRequest:
+      type: object
+      required:
+        - x
+        - 'y'
+      properties:
+        x:
+          type: integer
+        'y':
+          type: integer
     RejectedError:
       type: object
       required:
@@ -372,6 +477,7 @@ components:
           type: string
           enum:
             - MISSING_FIELD
+            - OBJECT_FOLLOW_NOT_REGISTERED
         detail:
           type: string
         body:
@@ -384,6 +490,15 @@ components:
       properties:
         relative:
           $ref: '#/components/schemas/Position'
+    SuccessResponse:
+      type: object
+      required:
+        - response
+      properties:
+        response:
+          type: string
+          enum:
+            - SUCCESS
 servers:
   - url: http://localhost:8000
     description: Local Server

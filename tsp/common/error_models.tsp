@@ -6,7 +6,7 @@ using TypeSpec.Http;
 @error
 model RejectedError {
     @statusCode statusCode: 400;
-    code: "MISSING_FIELD";
+    code: "MISSING_FIELD" | "OBJECT_FOLLOW_NOT_REGISTERED";
     detail: string;
     body: string;
 }

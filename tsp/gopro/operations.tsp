@@ -1,5 +1,6 @@
 import "@typespec/http";
 import "../common/error_models.tsp";
+import "../common/models.tsp";
 import "./models.tsp";
 
 using TypeSpec.Http;
@@ -15,9 +16,10 @@ namespace DriftLapseAPI.GoPro {
         @summary("Take a photo")
         @returnsDoc("BLE command sent successfully")
         @post
-        photoGoPro(@body body: {}): {
+        photoGoPro(): {
             @bodyRoot response: {
                 @statusCode statusCode: 200;
+                ...SuccessResponse;
             };
         } | InternalError;
     }
@@ -29,9 +31,10 @@ namespace DriftLapseAPI.GoPro {
         @summary("Start Video")
         @returnsDoc("BLE command sent successfully")
         @post
-        startVideoGoPro(@body body: {}): {
+        startVideoGoPro(): {
             @bodyRoot response: {
                 @statusCode statusCode: 200;
+                ...SuccessResponse;
             };
         } | InternalError;
     }
@@ -43,9 +46,10 @@ namespace DriftLapseAPI.GoPro {
         @summary("Stop Video")
         @returnsDoc("BLE command sent successfully")
         @post
-        stopVideoGoPro(@body body: {}): {
+        stopVideoGoPro(): {
             @bodyRoot response: {
                 @statusCode statusCode: 200;
+                ...SuccessResponse;
             };
         } | InternalError;
     }
@@ -57,9 +61,10 @@ namespace DriftLapseAPI.GoPro {
         @summary("Start Timelapse")
         @returnsDoc("BLE command sent successfully")
         @post
-        startTimelapseGoPro(@body body: {}): {
+        startTimelapseGoPro(): {
             @bodyRoot response: {
                 @statusCode statusCode: 200;
+                ...SuccessResponse;
             };
         } | InternalError;
     }
@@ -71,9 +76,10 @@ namespace DriftLapseAPI.GoPro {
         @summary("Stop Timelapse")
         @returnsDoc("BLE command sent successfully")
         @post
-        stopTimelapseGoPro(@body body: {}): {
+        stopTimelapseGoPro(): {
             @bodyRoot response: {
                 @statusCode statusCode: 200;
+                ...SuccessResponse;
             };
         } | InternalError;
     }
