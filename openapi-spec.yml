@@ -1,47 +1,174 @@
 openapi: 3.0.0
 info:
   title: Drift Lapse API
-  description: This is the drift-lapse backend for controlling GoPro, Image Tracking, and DF3.
+  description: This is the drift-lapse backend for controlling GoPro, Image Tracking, and Emotimo.
   version: v1
 tags:
-  - name: Turret
+  - name: Emotimo
 paths:
-  /turret/move:
+  /emotimo/absolute:
     post:
-      operationId: MoveOperation_moveTurret
-      summary: Move the turret
+      operationId: AbsoluteOperation_absMoveEmotimo
+      summary: Move the emotimo to an absolute position
+      description: Send a request to move the Emotimo to an absolute position
       parameters: []
       responses:
         '200':
-          description: The request has succeeded.
+          description: Operation completed successfully, returns the new absolute position
           content:
             application/json:
               schema:
-                anyOf:
-                  - type: object
-                    properties:
-                      position:
-                        $ref: '#/components/schemas/Position'
-                    required:
-                      - position
-                  - type: object
-                    properties:
-                      message:
-                        type: string
-                    required:
-                      - message
+                $ref: '#/components/schemas/MoveResponse'
+        '400':
+          description: There was an issue that rejected this operation. See schema for details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RejectedError'
+        '422':
+          description: There was an issue parsing the response. Generated automagically by Pydantic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIValidationError'
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
       tags:
-        - Turret
+        - Emotimo
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              anyOf:
-                - $ref: '#/components/schemas/AbsoluteMoveRequest'
-                - $ref: '#/components/schemas/RelativeMoveRequest'
+              $ref: '#/components/schemas/AbsoluteMoveRequest'
+  /emotimo/calibrate:
+    post:
+      operationId: CalibrateOperation_CalibrateEmotimo
+      summary: Calibrate the Emotimo
+      description: Calibrates the Emotimo positions. Whatever the current positions are, they are now labelled 0.
+      parameters: []
+      responses:
+        '200':
+          description: Operations completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoveResponse'
+        '422':
+          description: There was an issue parsing the response. Generated automagically by Pydantic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIValidationError'
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - Emotimo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /emotimo/configure:
+    post:
+      operationId: ConfigureOperation_configureEmotimo
+      summary: Configure the emotimo
+      description: Configure the Emotimo operation
+      parameters: []
+      responses:
+        '200':
+          description: Operation completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigureResponse'
+        '400':
+          description: There was an issue that rejected this operation. See schema for details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RejectedError'
+        '422':
+          description: There was an issue parsing the response. Generated automagically by Pydantic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIValidationError'
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - Emotimo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigureRequest'
+  /emotimo/relative:
+    post:
+      operationId: RelativeOperation_relMoveEmotimo
+      summary: Move the emotimo by a relative amount
+      description: Send a request to move the Emotimo by a reletive or delta amount
+      parameters: []
+      responses:
+        '200':
+          description: Operation completed successfully, returns the new absolute position
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoveResponse'
+        '400':
+          description: There was an issue that rejected this operation. See schema for details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RejectedError'
+        '422':
+          description: There was an issue parsing the response. Generated automagically by Pydantic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIValidationError'
+        '500':
+          description: Something went wrong with processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+      tags:
+        - Emotimo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RelativeMoveRequest'
 components:
   schemas:
+    APIValidationError:
+      type: object
+      required:
+        - detail
+        - body
+      properties:
+        detail:
+          type: string
+        body:
+          type: string
+      description: There was an issue parsing the response. Generated automagically by Pydantic
     AbsoluteMoveRequest:
       type: object
       required:
@@ -49,12 +176,48 @@ components:
       properties:
         absolute:
           $ref: '#/components/schemas/Position'
-    Position:
+    ConfigureRequest:
+      type: object
+      properties:
+        pulseRate:
+          type: integer
+    ConfigureResponse:
       type: object
       required:
-        - pan
-        - tilt
-        - slide
+        - pulseRate
+      properties:
+        pulseRate:
+          type: integer
+    InternalError:
+      type: object
+      required:
+        - code
+        - body
+        - detail
+      properties:
+        code:
+          type: string
+          enum:
+            - INTERNAL_ERROR
+        body:
+          type: string
+        detail:
+          type: string
+      description: Something went wrong with processing the request
+      example:
+        statusCode: 500
+        code: INTERNAL_ERROR
+        body: There was an internal error processing the request
+        detail: A lot of detail to help traceback the error
+    MoveResponse:
+      type: object
+      required:
+        - position
+      properties:
+        position:
+          $ref: '#/components/schemas/Position'
+    Position:
+      type: object
       properties:
         pan:
           type: integer
@@ -62,6 +225,22 @@ components:
           type: integer
         slide:
           type: integer
+    RejectedError:
+      type: object
+      required:
+        - code
+        - detail
+        - body
+      properties:
+        code:
+          type: string
+          enum:
+            - MISSING_FIELD
+        detail:
+          type: string
+        body:
+          type: string
+      description: There was an issue that rejected this operation. See schema for details
     RelativeMoveRequest:
       type: object
       required:
