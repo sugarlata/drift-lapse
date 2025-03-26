@@ -24,8 +24,14 @@ jobs:
           api-configs: |-
             [
               {
-                "openapi-json-filepath": "openapi-spec.yml",
+                "openapi-json-filepath": "drift_lapse/openapi-spec.yml",
                 "api-doc-filepath": "drift-lapse-api.html"
+              },
+              {
+                "openapi-json-filepath": "emotimo_controller/openapi-spec.yml",
+                "api-doc-filepath": "emotimo-controller-api.html"
               }
             ]
           api-docs-dir: docs
+
+      

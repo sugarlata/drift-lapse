@@ -1,0 +1,16 @@
+{
+  "name": "emotimo_controller",
+  "version": "1.0.0",
+  "type": "module",
+  "peerDependencies": {
+    "@typespec/compiler": "latest"
+  },
+  "devDependencies": {
+    "@typespec/compiler": "latest"
+  },
+  "private": true,
+  "dependencies": {
+    "@typespec/json-schema": "^0.65.0",
+    "@typespec/openapi3": "^0.65.0"
+  }
+}

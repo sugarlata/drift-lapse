@@ -4,11 +4,10 @@
 #     "fastapi-code-generator",
 # ]
 # ///
-import os
 import subprocess
 
 FASTAPI_GENERATION_LOCATION  = "_generated/fastapi"
-PYDANTIC_MODELS_FILE = "drift_lapse/models.py"
+PYDANTIC_MODELS_FILE = "app/models.py"
 
 print("")
 print("TypeSpec Compiling OpenAPI Spec and JSON Schema")

@@ -1,0 +1,3 @@
+model SuccessResponse {
+    response: "SUCCESS";
+}
